@@ -3,7 +3,7 @@
 Proyecto académico de la asignatura **Tipología y ciclo de vida de los datos**, del
 Grado de Ciencia de Datos de la Universitat Oberta de Catalunya (UOC).
 
-> **Integrantes del grupo:** [Nombre y apellidos de cada integrante]  
+> **Integrantes del grupo:** Daniel Pérez Rodríguez, Nicolangelo Famiglietti Acuña  
 > **Asignatura:** Tipología y ciclo de vida de los datos  
 > **Práctica:** Práctica 1 — Web Scraping
 
@@ -58,11 +58,11 @@ conexión a Internet.
 
 ### Clonar el repositorio
 
-Sustituye `<URL_DEL_REPOSITORIO>` por la URL del repositorio del grupo:
+Sustituye `https://github.com/nfamiglietti/hiperdino-web-scraping-uoc-pract1` por la URL del repositorio del grupo:
 
 ```bash
-git clone <URL_DEL_REPOSITORIO>
-cd <NOMBRE_DEL_REPOSITORIO>
+git clone https://github.com/nfamiglietti/hiperdino-web-scraping-uoc-pract1
+cd source
 ```
 
 ### Windows (PowerShell)
@@ -215,11 +215,8 @@ condiciones de uso del sitio y confirmar que la licencia propuesta es adecuada.
 
 **DOI de Zenodo:** [añadir el DOI una vez publicado](https://doi.org/).
 
-### Cita sugerida
-
-> [Apellidos e iniciales de los integrantes]. (2026). *Web Scraping de
+> Pérez Rodríguez D., Famiglietti Acuña N. (2026). *Web Scraping de
 > Supermercados Hiperdino: Práctica 1 — Tipología y ciclo de vida de los datos*
 > (versión [número]). Zenodo. https://doi.org/[DOI]
 
-Indica la fecha de consulta o extracción al analizar los datos, ya que los
-precios y la disponibilidad de productos pueden cambiar.
+Datos extraidos el 20 de octubre de 2026
