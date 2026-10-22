@@ -62,7 +62,7 @@ Sustituye `https://github.com/nfamiglietti/hiperdino-web-scraping-uoc-pract1` po
 
 ```bash
 git clone https://github.com/nfamiglietti/hiperdino-web-scraping-uoc-pract1
-cd source
+cd hiperdino-web-scraping-uoc-pract1
 ```
 
 ### Windows (PowerShell)
@@ -213,10 +213,10 @@ derechos sobre las marcas, fotografías, descripciones ni otros contenidos de
 Hiperdino. Antes de publicar o redistribuir los datos, el grupo debe revisar las
 condiciones de uso del sitio y confirmar que la licencia propuesta es adecuada.
 
-**DOI de Zenodo:** [añadir el DOI una vez publicado](https://doi.org/).
+**DOI de Zenodo:** [https://doi.org/10.5281/zenodo.23557549](https://doi.org/10.5281/zenodo.23557549).
 
 > Pérez Rodríguez D., Famiglietti Acuña N. (2026). *Web Scraping de
 > Supermercados Hiperdino: Práctica 1 — Tipología y ciclo de vida de los datos*
-> (versión [número]). Zenodo. https://doi.org/[DOI]
+> (versión 1.0). Zenodo. https://doi.org/10.5281/zenodo.23557549
 
 Datos extraidos el 20 de octubre de 2026

@@ -125,6 +125,7 @@ class PoliteSession:
         self._last_request_at: Optional[float] = None
 
     def _wait_if_needed(self) -> None:
+        """Maintain a minimum delay between requests to avoid overloading the website."""
         if self._last_request_at is not None:
             elapsed = time.monotonic() - self._last_request_at
             remaining = REQUEST_DELAY_SECONDS - elapsed
@@ -151,6 +152,7 @@ class PoliteSession:
 
     def get(self, url: str) -> requests.Response:
         canonical_url = canonicalize_url(url)
+        """Check robots.txt before requesting the URL to ensure that crawling is allowed."""
         if not self.robots.can_fetch(USER_AGENT, canonical_url):
             raise PermissionError("robots.txt no permite esta URL: {}".format(canonical_url))
         return self._get(canonical_url)
@@ -171,6 +173,7 @@ def _normalize_category_text(value: str) -> str:
 
 
 def _is_category_url(url: str, name: str = "") -> bool:
+    """Filter URLs to keep product category pages and exclude unrelated sections of the website."""
     parts = urlsplit(url)
     if parts.netloc != urlsplit(BASE_URL).netloc:
         return False
@@ -179,6 +182,7 @@ def _is_category_url(url: str, name: str = "") -> bool:
     if re.match(r"^/c(?:\d+)?/.+", path) is None:
         return False
 
+    """Use inclusion and exclusion keywords to distinguish product categories from unrelated pages."""
     searchable_text = "{} {}".format(path, _normalize_category_text(name))
     if any(keyword in searchable_text for keyword in EXCLUDED_CATEGORY_KEYWORDS):
         return False
@@ -573,6 +577,7 @@ def _price_text(card: Tag) -> str:
 
 
 def _parse_products_from_html(html: str, category: str) -> List[Dict[str, object]]:
+    """Extract product information from HTML cards when structured product data is unavailable."""
     soup = BeautifulSoup(html, "lxml")
     cards = []
     for selector in PRODUCT_CARD_SELECTORS:
@@ -599,6 +604,7 @@ def _parse_products_from_html(html: str, category: str) -> List[Dict[str, object
             continue
 
         card_text = card.get_text(" ", strip=True)
+        """Detect promotions using known HTML selectors and promotional keywords."""
         offer_node = card.select_one(
             ".special-price, .discount, [class*='offer'], [class*='promo']"
         )
@@ -656,7 +662,9 @@ def parse_products(html: str, category: str) -> List[Dict[str, object]]:
                     "Subcategoría": item.get("category_name_sap", ""),
                     "Precio": item.get("final_price", ""),
                     "Precio/Unidad": item.get("price_text", ""),
+                    """Fall back to the first word of the product name when the brand is not explicitly available."""
                     "Marca": item.get("label_brand") or str(name).split()[0],
+                    """Identify promotional products using the available special price and promotion description fields."""
                     "Oferta": (
                         "Sí"
                         if item.get("special_price")
@@ -734,6 +742,7 @@ def scrape_catalog(
                         )
                         for item in extracted
                     )
+                    """Create a page signature to detect repeated product listings and prevent duplicate extraction."""
                     if page_signature in seen_pages:
                         print(
                             "   └─ La página {} repite productos; se detiene para "
@@ -769,6 +778,7 @@ def scrape_catalog(
                         )
                         break
 
+                    """Ensure that pagination stays within the same website and category."""
                     next_url = urljoin(driver.current_url, next_href)
                     next_parts = urlsplit(next_url)
                     if (
@@ -780,6 +790,7 @@ def scrape_catalog(
                             "se omite."
                         )
                         break
+                    """Check robots.txt before requesting the next page."""
                     if not client.robots.can_fetch(USER_AGENT, next_url):
                         print(
                             "   └─ robots.txt no permite la página siguiente; "
@@ -870,6 +881,7 @@ def list_categories(use_selenium: bool = False) -> List[Dict[str, str]]:
 
 def save_catalog(products: pd.DataFrame, output_path: Path = OUTPUT_CSV) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
+    """Save the dataset using UTF-8 with a BOM for better compatibility with spreadsheet applications."""
     products.to_csv(output_path, index=False, encoding="utf-8-sig")
 
 
@@ -884,6 +896,7 @@ def _positive_int(value: str) -> int:
 
 
 def main() -> None:
+    """Define the command-line options used to configure the scraping process."""
     parser = argparse.ArgumentParser(description="Scraper académico del catálogo Hiperdino")
     parser.add_argument(
         "--list-categories",
