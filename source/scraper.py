@@ -182,7 +182,7 @@ def _is_category_url(url: str, name: str = "") -> bool:
     if re.match(r"^/c(?:\d+)?/.+", path) is None:
         return False
 
-    """Use inclusion and exclusion keywords to distinguish product categories from unrelated pages."""
+    # Use inclusion and exclusion keywords to distinguish product categories from unrelated pages.
     searchable_text = "{} {}".format(path, _normalize_category_text(name))
     if any(keyword in searchable_text for keyword in EXCLUDED_CATEGORY_KEYWORDS):
         return False
@@ -604,7 +604,7 @@ def _parse_products_from_html(html: str, category: str) -> List[Dict[str, object
             continue
 
         card_text = card.get_text(" ", strip=True)
-        """Detect promotions using known HTML selectors and promotional keywords."""
+        # Detect promotions using known HTML selectors and promotional keywords.
         offer_node = card.select_one(
             ".special-price, .discount, [class*='offer'], [class*='promo']"
         )
@@ -742,7 +742,7 @@ def scrape_catalog(
                         )
                         for item in extracted
                     )
-                    """Create a page signature to detect repeated product listings and prevent duplicate extraction."""
+                    # Create a page signature to detect repeated product listings and prevent duplicate extraction.
                     if page_signature in seen_pages:
                         print(
                             "   └─ La página {} repite productos; se detiene para "
@@ -778,7 +778,7 @@ def scrape_catalog(
                         )
                         break
 
-                    """Ensure that pagination stays within the same website and category."""
+                    # Ensure that pagination stays within the same website and category.
                     next_url = urljoin(driver.current_url, next_href)
                     next_parts = urlsplit(next_url)
                     if (
@@ -790,7 +790,7 @@ def scrape_catalog(
                             "se omite."
                         )
                         break
-                    """Check robots.txt before requesting the next page."""
+                    # Check robots.txt before requesting the next page.
                     if not client.robots.can_fetch(USER_AGENT, next_url):
                         print(
                             "   └─ robots.txt no permite la página siguiente; "
@@ -881,7 +881,7 @@ def list_categories(use_selenium: bool = False) -> List[Dict[str, str]]:
 
 def save_catalog(products: pd.DataFrame, output_path: Path = OUTPUT_CSV) -> None:
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    """Save the dataset using UTF-8 with a BOM for better compatibility with spreadsheet applications."""
+    # Save the dataset using UTF-8 with a BOM for better compatibility with spreadsheet applications.
     products.to_csv(output_path, index=False, encoding="utf-8-sig")
 
 
