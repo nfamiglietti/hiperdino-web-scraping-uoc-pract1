@@ -662,9 +662,9 @@ def parse_products(html: str, category: str) -> List[Dict[str, object]]:
                     "Subcategoría": item.get("category_name_sap", ""),
                     "Precio": item.get("final_price", ""),
                     "Precio/Unidad": item.get("price_text", ""),
-                    """Fall back to the first word of the product name when the brand is not explicitly available."""
+                    # Fall back to the first word of the product name when the brand is not explicitly available.
                     "Marca": item.get("label_brand") or str(name).split()[0],
-                    """Identify promotional products using the available special price and promotion description fields."""
+                    # Identify promotional products using the available special price and promotion description fields.
                     "Oferta": (
                         "Sí"
                         if item.get("special_price")
